@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="papaparse.min.js"></script>
+<script src="jquery-csv.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <title>Moving an Object</title>
+</head>
+<body>
+    <script>
+
+    	function csvToArray(str, delimiter = ",") {
+	    return ([1,1]);
+        }
+
+        var canvas = document.createElement("canvas");
+        b = canvas.getContext("2d");
+
+        canvas.width = 600;
+        canvas.height = 600;
+
+        document.body.appendChild(canvas);
+
+        var background = new Image();
+        background.src = "./levine.png";
+
+        
+        background.onload = function(){
+            b.drawImage(background,0,0,canvas.width,canvas.height);   
+        }
+
+        var posX = 300;
+        posY = 380;
+        dx = 0;
+        dy = 0;
+
+        setInterval(function () {
+            b.drawImage(background,0,0,canvas.width,canvas.height);
+            posX += dx;
+            posY += dy;
+
+            if (posX > 390) {
+                dx = 0;
+                posX = 390;
+            }
+
+            if (posX < 0) {
+                dx = 0;
+                posX = 0;
+            }
+
+            if (posY > 390) {
+                dy = 0;
+                posY = 390;
+            }
+
+            if (posY < 0) {
+                dy = 0;
+                posY = 0;
+            }
+            
+            const xhttp = new XMLHttpRequest();
+            b.fillStyle = "red";
+            xhttp.onload = function() {
+                const data = this.responseText;
+                const datasplit = data.split(",");
+                posX = posX;
+                posY = posY;
+            }
+            xhttp.open("GET", "./rosbag.csv",true);
+            xhttp.send();
+        b.fillRect(posX, posY, 10, 10);
+        }, 20)
+
+    </script>
+</body>
+</html>
+
+
